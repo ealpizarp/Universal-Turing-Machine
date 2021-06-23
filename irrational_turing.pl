@@ -9,6 +9,7 @@ Authors:Eric Alpizar.
 
 :- use_module(turing).
 
+
 % The config for the irrational turing sequence (001011011101111011111) is specified below
 
 irrational_turing_paper(IS, FS, RS, B, S) :-
@@ -30,32 +31,18 @@ irrational_turing_paper(IS, FS, RS, B, S) :-
 
 
 
-% Instance to main
-tape(main).
-
-% Convert string to atom, the list is in Atoms, X is the list that main returns
-conv :-
-	tape(X),
-	maplist(atom_string, Atoms,X).
-	
-% maplist(atom_string, Atoms,["b","b","b","b","h"]).
-
-
-main :-
-    open('tape.txt', read, Str),
-    read_file(Str,Lines),
-    close(Str),
-    write(Lines), nl.
-
 read_file(Stream,[]) :-
     at_end_of_stream(Stream).
+
 
 read_file(Stream,[X|L]) :-
     \+ at_end_of_stream(Stream),
     read(Stream,X),
     read_file(Stream,L).
 	
-	
+
+
+
 % The rules for the turing machine that generates an irrational number are specified here
 
 irrational_turing(b, b, 0, right, b1).
@@ -126,7 +113,9 @@ irrational_turing(h, h, h, stay, h).
 
 
 go :-
-	tape(X),
-    turing(irrational_turing_paper, irrational_turing, X, T1),
+    open('tape.txt', read, Str),
+    read_file(Str,Lines),
+    close(Str),
+    turing(irrational_turing_paper, irrational_turing, Lines, T1),
     write(T1), 
 	nl.
